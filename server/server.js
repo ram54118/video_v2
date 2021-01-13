@@ -8,7 +8,8 @@ const http = require('http');
 const server = http.createServer(app);
 
 const io = require('socket.io')(server);
-app.use(express.static(__dirname + '/public'));
+// app.use(express.static(__dirname + '/public'));
+app.use(express.static(process.cwd() + '/dist/capture/'));
 
 io.sockets.on('error', (e) => console.log(e));
 io.sockets.on('connection', (socket) => {
@@ -36,10 +37,10 @@ io.sockets.on('connection', (socket) => {
     socket.to(broadcaster).emit('disconnectPeer', socket.id);
   });
 
-  // socket.on('new-message', (message) => {
-  //   console.log('new message', message);
-  //   socket.emit('receiver', message);
-  // });
+  app.get('/', (req, res) => {
+    console.log('called');
+    res.sendFile(process.cwd() + '/dist/capture/index.html');
+  });
 });
 
 server.listen(port, () => console.log(`Server is running on port ${port}`));
