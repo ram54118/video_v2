@@ -1,0 +1,26 @@
+<mat-tab-group (selectedTabChange)="tabChanged($event)">
+  <mat-tab label="Live Stream" > 
+	<div class="d-flex flex-column align-items-center justify-content-center m-2">
+			<video #video class="vid m-2" autoplay></video>
+			<div class="action-buttons">
+			<button type="button" style="margin-right: 20px;" class="btn btn-primary" (click)="startRecording()" [disabled]="recordingStarted">Start feed</button>
+      <button type="button" style="margin-right: 20px;" class="btn btn-primary" (click)="stopRecording()" [disabled]="!recordingStarted">Stop Feed</button>
+      <button type="button" style="margin-right: 20px;" class="btn btn-primary" (click)="capturePhoto()" [disabled]="!recordingStarted">Capture Photo</button>
+    </div>
+    
+  </div>
+  
+    <canvas #canvas id="canvas" width="640" height="480"></canvas>
+    <ul>
+        <li *ngFor="let photo of captures">
+            <img src="{{photo}}" height="50" />
+        </li>
+    </ul>
+ </mat-tab>
+  <mat-tab label="Live Object Detection"> 
+    <div class="m-2 d-flex flex-column align-items-center justify-content-center">
+      <video hidden id="liveDetectionVideo" width="640" height="480"></video>
+      <canvas #liveDetectionCanvas id="canvas-live-detection" ></canvas>
+      </div>
+    </mat-tab>
+</mat-tab-group>

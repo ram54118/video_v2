@@ -1,0 +1,26 @@
+<mat-tab-group (selectedTabChange)="tabChanged($event)">
+  <ng-container *ngFor="let tab of tabs">
+    <mat-tab [label]="tab.label">
+      <ng-container [ngSwitch]="tab.value">
+        <ng-container *ngSwitchCase="'iphoneStream'">
+          <div class="d-flex flex-column align-items-center justify-content-center m-2">
+            <video id="iPhoneStreamVideo" class="vid m-2" autoplay width="800" height="500"></video>
+            <div class="action-buttons" *ngIf="isLiveVideoLoaded">
+              <button type="button" style="margin-right: 20px;" class="btn btn-primary" (click)="startRecording()" [disabled]="recordingStarted">
+                Start feed
+              </button>
+              <button type="button" style="margin-right: 20px;" class="btn btn-primary" (click)="stopRecording()" [disabled]="!recordingStarted">
+                Stop Feed
+              </button>
+            </div>
+          </div>
+        </ng-container>
+        <ng-container *ngSwitchCase="'liveDirectStream'">
+          <div class="d-flex justify-content-center">
+            <video id="directFeed" class="vid m-2" autoplay playsinline width="800" height="500"></video>
+          </div>
+        </ng-container>
+      </ng-container>
+    </mat-tab>
+  </ng-container>
+</mat-tab-group>

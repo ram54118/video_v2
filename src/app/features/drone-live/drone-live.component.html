@@ -1,0 +1,50 @@
+<mat-tab-group (selectedTabChange)="tabChanged($event)">
+  <mat-tab label="Live Stream"> 
+	<div class="d-flex justify-content-center m-2">
+   <video id="App-Video" #droneVideo class="video-js vjs-default-skin" controls playsinline width="800" height="500">
+      <source [src]="droneLiveUrl" type="application/x-mpegurl"/>
+      <p class="vjs-no-js">
+         To view this video please enable JavaScript, and consider upgrading to a web browser that
+         <a href="https://videojs.com/html5-video-support/" target="_blank">supports HTML5 video</a>
+      </p>
+   </video>
+</div>
+ </mat-tab>
+ <mat-tab label="Live Object Detection"> 
+     	<div class="d-flex justify-content-center m-2">
+    <video
+      id="video"
+      width="800"
+      height="500"
+      style="position: fixed;"
+      muted
+      controls
+    ></video>
+    <canvas
+      id="canvas"
+      width="800"
+      height="500"
+      style="position: fixed;"
+    ></canvas>
+</div>
+  </mat-tab>
+
+   <mat-tab label="Live Object Detection(Generic)"> 
+     	<div class="d-flex justify-content-center m-2">
+    <video
+      id="genericVideo"
+      width="800"
+      height="500"
+      style="position: fixed;"
+      muted
+      controls
+    ></video>
+    <canvas
+      id="genericCanvas"
+      width="800"
+      height="500"
+      style="position: fixed;"
+    ></canvas>
+</div>
+  </mat-tab>
+</mat-tab-group>

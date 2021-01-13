@@ -1,0 +1,19 @@
+    <mat-card class="login-box d-flex flex-column">
+      <mat-card-header>
+        <mat-card-title class="card-title">Sign In</mat-card-title>
+      </mat-card-header>
+  
+      <form class="login-form" [formGroup]="loginForm">
+        <mat-card-content class="d-flex flex-column">
+          <mat-form-field>
+            <input matInput placeholder="Username" formControlName="userName">
+          </mat-form-field>
+  
+          <mat-form-field>
+            <input matInput  type="password" placeholder="Password" formControlName="password">
+          </mat-form-field>
+           <mat-error *ngIf="isInvalidCredentials" class="d-flex justify-content-center">Invalid Credentials</mat-error>
+        </mat-card-content>
+        <button class="btn-block btn btn-primary" [disabled]="loginForm.invalid" (click)="login()">Sign-in</button>
+      </form>
+    </mat-card>
