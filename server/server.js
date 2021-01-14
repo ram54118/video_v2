@@ -1,22 +1,22 @@
 const express = require('express');
 const app = express();
 const http = require('http');
-const https = require('https')
-const fs = require('fs')
-const path = require('path')
-require('dotenv').config()
+const https = require('https');
+const fs = require('fs');
+const path = require('path');
+require('dotenv').config();
 var server;
 let broadcaster;
 
 const port = parseInt(process.env.port) || 3080;
 
-if (process.env.SSL == "true") {
+if (process.env.SSL == 'true') {
   var ssloptions = {
     key: fs.readFileSync(path.join(__dirname, 'ssl/ryans-key.pem')),
     cert: fs.readFileSync(path.join(__dirname, 'ssl/ryans-cert.pem')),
     //    ca: fs.readFileSync(path.join(__dirname, resolveURL('keys/domain-ca.pem')))
   };
-  server = https.createServer(ssloptions,app);
+  server = https.createServer(ssloptions, app);
 } else {
   server = http.createServer(app);
 }
@@ -28,12 +28,12 @@ io.sockets.on('error', (e) => console.log(e));
 io.sockets.on('connection', (socket) => {
   console.log('connected');
   socket.on('broadcaster', () => {
-    console.log("br")
+    console.log('br');
     broadcaster = socket.id;
     socket.broadcast.emit('broadcaster');
   });
   socket.on('watcher', () => {
-    if(broadcaster != socket.id){
+    if (broadcaster != socket.id) {
       socket.to(broadcaster).emit('watcher', socket.id);
     }
   });

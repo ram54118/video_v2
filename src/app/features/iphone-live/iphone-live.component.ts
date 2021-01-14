@@ -17,7 +17,7 @@ export class IphoneLiveComponent extends DeviceInfoService implements OnInit, Af
   public isIphoneDevice: boolean;
 
   public recordingStarted = false;
-  public isdirectInt: boolean = false;
+  public isdirectInt = false;
   public isLiveVideoLoaded = false;
   private isDirectFeedLoaded = false;
   public remoteStream: MediaStream;
@@ -37,11 +37,6 @@ export class IphoneLiveComponent extends DeviceInfoService implements OnInit, Af
         {
           label: 'Live Stream Direct',
           value: 'liveDirectStream',
-        },
-        // will remove this tab
-        {
-          label: 'Start Iphone Streaming',
-          value: 'iphoneStream',
         },
       ];
     }
@@ -79,7 +74,9 @@ export class IphoneLiveComponent extends DeviceInfoService implements OnInit, Af
   }
 
   ngAfterViewInit() {
-    if (!this.isDirectFeedLoaded) {
+    if (this.isIOSDevice()) {
+      this.initCamera();
+    } else if (!this.isDirectFeedLoaded) {
       this.getDirectFeed();
     }
   }
