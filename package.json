@@ -26,6 +26,7 @@
     "@tensorflow/tfjs": "^2.7.0",
     "@videojs/http-streaming": "^2.4.1",
     "bootstrap": "^4.3.1",
+    "dotenv": "^8.2.0",
     "hls.js": "^0.14.17",
     "ngx-socket-io": "^3.2.0",
     "rxjs": "~6.4.0",

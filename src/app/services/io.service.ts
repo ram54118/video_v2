@@ -37,6 +37,7 @@ export class IoService {
     });
 
     this.socket.on('watcher', (id) => {
+      console.log("came")
       const peerConnection = new RTCPeerConnection(config);
       this.peerConnections[id] = peerConnection;
 
@@ -48,13 +49,14 @@ export class IoService {
           this.socket.emit('candidate', id, event.candidate);
         }
       };
-
-      peerConnection
+      peerConnection.onnegotiationneeded = () => {
+        peerConnection
         .createOffer()
         .then((sdp) => peerConnection.setLocalDescription(sdp))
         .then(() => {
           this.socket.emit('offer', id, peerConnection.localDescription);
-        });
+        });  
+      }
     });
 
     this.socket.on('candidate', (id, candidate) => {
