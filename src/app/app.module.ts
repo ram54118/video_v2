@@ -40,8 +40,9 @@ import { DroneLiveComponent } from './features/drone-live/drone-live.component';
 import { IphoneLiveComponent } from './features/iphone-live/iphone-live.component';
 import { LoginComponent } from './features/login/login.component';
 import { WebCamLiveComponent } from './features/webcam-live/webcam-live.component';
+// const config: SocketIoConfig = { url: location.protocol + '//' + location.hostname + (location.port ? ':' + location.port : ''), options: {} };
+const config: SocketIoConfig = { url: 'https://192.168.43.68:8085/', options: {} };
 
-const config: SocketIoConfig = { url: 'http://localhost:3080', options: {} };
 const materialModules = [
   MatAutocompleteModule,
   MatButtonModule,

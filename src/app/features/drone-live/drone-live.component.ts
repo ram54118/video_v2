@@ -13,12 +13,16 @@ import * as data from './../../../assets/configuration/config.json';
 export class DroneLiveComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('droneVideo', { static: true }) public droneVideoElem: ElementRef;
   public droneLiveUrl: string;
+  public droneLiveObjectDetection;
+  public droneLiveObjectGenericDetection;
   private player;
   constructor() {}
   ngOnInit() {
     const liveurls = (data as any).default;
     console.log('liveurls', liveurls);
     this.droneLiveUrl = liveurls ? liveurls.droneLiveUrl : null;
+    this.droneLiveObjectDetection = liveurls ? liveurls.droneLiveObjectDetection : null;
+    this.droneLiveObjectGenericDetection = liveurls ? liveurls.droneLiveObjectGenericDetection : null;
     console.log('Using TensorFlow backend: ', tf.getBackend());
   }
 
@@ -79,12 +83,11 @@ export class DroneLiveComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     });
 
-    this.initHLS(video, LIVE_STREAM_URL);
+    this.initHLS(video, this.droneLiveObjectDetection);
   }
 
   liveInit() {
     const canvas = document.getElementById('canvas') as HTMLCanvasElement;
-    const LIVE_STREAM_URL = 'https://bitmovin-a.akamaihd.net/content/MI201109210084_1/m3u8s/f08e80da-bf1d-4e3d-8899-f0f6155f6efa.m3u8';
     const video: any = document.getElementById('video');
     video.addEventListener('loadeddata', () => {
       cocoSSD.load({ modelUrl: './../assets/model_web/model.json', base: 'lite_mobilenet_v2' }).then((model) => {
@@ -93,7 +96,7 @@ export class DroneLiveComponent implements OnInit, AfterViewInit, OnDestroy {
       });
     });
 
-    this.initHLS(video, LIVE_STREAM_URL);
+    this.initHLS(video, this.droneLiveObjectDetection);
   }
 
   private initHLS(video, LIVE_STREAM_URL) {
