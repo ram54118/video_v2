@@ -27,11 +27,43 @@ export class WebCamLiveComponent implements OnInit {
   tabChanged(event) {
     if (event.index === 0) {
       this.initCamera();
-    } else {
+    } else if (event.index === 1) {
       this.webcam_init();
       this.predictWithCocoModel();
+    } else {
+      this.initWebCamera();
     }
   }
+
+  private initWebCamera() {
+    const liveDetectionVideoElem = <HTMLVideoElement>document.getElementById('liveDetectionVideo1');
+    this.predictWithLayersmodel(liveDetectionVideoElem);
+
+    navigator.mediaDevices
+      .getUserMedia({
+        audio: false,
+        video: {
+          facingMode: 'user',
+        },
+      })
+      .then((stream) => {
+        liveDetectionVideoElem.srcObject = stream;
+        liveDetectionVideoElem.onloadedmetadata = () => {
+          liveDetectionVideoElem.play();
+        };
+      });
+  }
+
+  public async predictWithLayersmodel(liveDetectionVideoElem) {
+    const canvas = <HTMLCanvasElement>document.getElementById('canvas-live-detection1');
+    const model = await cocoSSD.load({ modelUrl: './../assets/Ed_web_model/model.json' });
+    //  const model = await tf.loadLayersModel('./../assets/Ed_web_model/model.json');
+    // const model = await tf.loadGraphModel('./../assets/Ed_web_model/model.json');
+    // const model = await cocoSSD.load({ base: 'lite_mobilenet_v2' });
+    this.detectFrame(liveDetectionVideoElem, model, canvas);
+    console.log('model loaded', model);
+  }
+
   private initCamera() {
     if (!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
       navigator.mediaDevices
@@ -112,23 +144,25 @@ export class WebCamLiveComponent implements OnInit {
       });
   }
   public async predictWithCocoModel() {
+    const canvas = <HTMLCanvasElement>document.getElementById('canvas-live-detection');
     const model = await cocoSSD.load({ base: 'lite_mobilenet_v2' });
-    this.detectFrame(this.liveDetectionVideoElem, model);
+    this.detectFrame(this.liveDetectionVideoElem, model, canvas);
     console.log('model loaded');
   }
-  detectFrame = (video, model) => {
+
+  detectFrame = (video, model, canvas) => {
     if (model && model.detect && video) {
       model.detect(video).then((predictions) => {
-        this.renderPredictions(predictions);
+        this.renderPredictions(predictions, canvas, video);
         requestAnimationFrame(() => {
-          this.detectFrame(video, model);
+          this.detectFrame(video, model, canvas);
         });
       });
     }
   };
 
-  renderPredictions = (predictions) => {
-    const canvas = <HTMLCanvasElement>document.getElementById('canvas-live-detection');
+  renderPredictions = (predictions, canvas, videoElem) => {
+    // const canvas = <HTMLCanvasElement>document.getElementById('canvas-live-detection');
     if (canvas && canvas.getContext) {
       const ctx = canvas.getContext('2d');
 
@@ -140,7 +174,7 @@ export class WebCamLiveComponent implements OnInit {
       const font = '16px sans-serif';
       ctx.font = font;
       ctx.textBaseline = 'top';
-      ctx.drawImage(this.liveDetectionVideoElem, 0, 0, 640, 480);
+      ctx.drawImage(videoElem, 0, 0, 640, 480);
 
       predictions.forEach((prediction) => {
         const x = prediction.bbox[0];
