@@ -1,0 +1,30 @@
+<div class="det-container" *ngIf="loadTab">
+  <div class="video-container">
+    <webcam
+      [height]="400"
+      [width]="800"
+      [trigger]="triggerObservable"
+      (imageCapture)="handleImage($event)"
+      *ngIf="showWebcam"
+      [allowCameraSwitch]="allowCameraSwitch"
+      [switchCamera]="nextWebcamObservable"
+      [videoOptions]="videoOptions"
+      [imageQuality]="1"
+      (cameraSwitched)="cameraWasSwitched($event)"
+      (initError)="handleInitError($event)"
+    >
+    </webcam>
+    <button
+      class="btn"
+      [ngClass]="{ 'btn-primary': buttonText !== 'Stop Prediction', 'btn-danger': buttonText === 'Stop Prediction' }"
+      type="button"
+      (click)="startPredection()"
+    >
+      {{ buttonText }}
+    </button>
+  </div>
+  <div class="image-container">
+    &nbsp;
+    <img style="min-width: 533px; max-width: 300px;" [src]="sanitize(predictionImageSrc)" *ngIf="predictionImageSrc" />
+  </div>
+</div>

@@ -21,12 +21,10 @@ if (process.env.SSL == 'true') {
   server = http.createServer(app);
 }
 const io = require('socket.io')(server);
-// app.use(express.static(__dirname + '/public'));
 app.use(express.static(process.cwd() + '/dist/capture/'));
 
 io.sockets.on('error', (e) => console.log(e));
 io.sockets.on('connection', (socket) => {
-  console.log('connected');
   socket.on('broadcaster', () => {
     console.log('br');
     broadcaster = socket.id;

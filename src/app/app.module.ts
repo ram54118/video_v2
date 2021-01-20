@@ -1,3 +1,4 @@
+import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
@@ -33,14 +34,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterModule } from '@angular/router';
 import { SocketIoConfig, SocketIoModule } from 'ngx-socket-io';
+import { WebcamModule } from 'ngx-webcam';
 import { AppComponent } from './app.component';
 import { AppRoutingmodule } from './app.routing.module';
 import { DashboardComponent } from './features/dashboard/dashboard.component';
 import { DroneLiveComponent } from './features/drone-live/drone-live.component';
 import { IphoneLiveComponent } from './features/iphone-live/iphone-live.component';
 import { LoginComponent } from './features/login/login.component';
+import { WebcamLiveDetectionComponent } from './features/webcam-live-detection/webcam-live-detection.component';
 import { WebCamLiveComponent } from './features/webcam-live/webcam-live.component';
-// const config: SocketIoConfig = { url: 'https://192.168.43.68:8085/', options: {} };
 const config: SocketIoConfig = { url: window.location.origin, options: {} };
 
 const materialModules = [
@@ -73,9 +75,18 @@ const materialModules = [
   MatRadioModule,
   MatDatepickerModule,
   MatTooltipModule,
+  WebcamModule,
 ];
 @NgModule({
-  declarations: [AppComponent, LoginComponent, DashboardComponent, WebCamLiveComponent, DroneLiveComponent, IphoneLiveComponent],
+  declarations: [
+    AppComponent,
+    LoginComponent,
+    DashboardComponent,
+    WebCamLiveComponent,
+    DroneLiveComponent,
+    IphoneLiveComponent,
+    WebcamLiveDetectionComponent,
+  ],
   imports: [
     BrowserModule,
     MatTabsModule,
@@ -85,6 +96,7 @@ const materialModules = [
     FormsModule,
     ReactiveFormsModule,
     AppRoutingmodule,
+    HttpClientModule,
     ...materialModules,
   ],
   providers: [],

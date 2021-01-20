@@ -29,10 +29,9 @@
     </div>
   </mat-tab>
 
-  <mat-tab label="Live ">
-    <div class="m-2 d-flex flex-column align-items-center justify-content-center">
-      <video hidden id="liveDetectionVideo1" width="640" height="480"></video>
-      <canvas #liveDetectionCanvas id="canvas-live-detection1"></canvas>
+  <mat-tab label="Live Detection">
+    <div class="m-2">
+      <app-webcam-live-detection #webCamLiveComp></app-webcam-live-detection>
     </div>
   </mat-tab>
 </mat-tab-group>

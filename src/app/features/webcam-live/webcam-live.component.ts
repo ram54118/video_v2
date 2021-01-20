@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import * as cocoSSD from '@tensorflow-models/coco-ssd';
+import { WebcamLiveDetectionComponent } from '../webcam-live-detection/webcam-live-detection.component';
 declare const MediaRecorder: any;
 @Component({
   selector: 'app-webcam-live',
@@ -19,50 +20,54 @@ export class WebCamLiveComponent implements OnInit {
   private mediaRecorder;
   public recordingStarted = false;
   private liveDetectionVideoElem: HTMLVideoElement;
+  @ViewChild('webCamLiveComp', { static: true }) webcamLiveDetectionComp: WebcamLiveDetectionComponent;
   constructor(private renderer: Renderer2) {}
 
   ngOnInit() {
     this.initCamera();
   }
   tabChanged(event) {
+    clearInterval(this.webcamLiveDetectionComp.triggerInterval);
     if (event.index === 0) {
       this.initCamera();
+      this.webcamLiveDetectionComp.loadTab = false;
     } else if (event.index === 1) {
       this.webcam_init();
       this.predictWithCocoModel();
+      this.webcamLiveDetectionComp.loadTab = false;
     } else {
-      this.initWebCamera();
+      this.webcamLiveDetectionComp.loadTab = true;
     }
   }
 
-  private initWebCamera() {
-    const liveDetectionVideoElem = <HTMLVideoElement>document.getElementById('liveDetectionVideo1');
-    this.predictWithLayersmodel(liveDetectionVideoElem);
+  // private initWebCamera() {
+  //   const liveDetectionVideoElem = <HTMLVideoElement>document.getElementById('liveDetectionVideo1');
+  //   this.predictWithLayersmodel(liveDetectionVideoElem);
 
-    navigator.mediaDevices
-      .getUserMedia({
-        audio: false,
-        video: {
-          facingMode: 'user',
-        },
-      })
-      .then((stream) => {
-        liveDetectionVideoElem.srcObject = stream;
-        liveDetectionVideoElem.onloadedmetadata = () => {
-          liveDetectionVideoElem.play();
-        };
-      });
-  }
+  //   navigator.mediaDevices
+  //     .getUserMedia({
+  //       audio: false,
+  //       video: {
+  //         facingMode: 'user',
+  //       },
+  //     })
+  //     .then((stream) => {
+  //       liveDetectionVideoElem.srcObject = stream;
+  //       liveDetectionVideoElem.onloadedmetadata = () => {
+  //         liveDetectionVideoElem.play();
+  //       };
+  //     });
+  // }
 
-  public async predictWithLayersmodel(liveDetectionVideoElem) {
-    const canvas = <HTMLCanvasElement>document.getElementById('canvas-live-detection1');
-    const model = await cocoSSD.load({ modelUrl: './../assets/Ed_web_model/model.json' });
-    //  const model = await tf.loadLayersModel('./../assets/Ed_web_model/model.json');
-    // const model = await tf.loadGraphModel('./../assets/Ed_web_model/model.json');
-    // const model = await cocoSSD.load({ base: 'lite_mobilenet_v2' });
-    this.detectFrame(liveDetectionVideoElem, model, canvas);
-    console.log('model loaded', model);
-  }
+  // public async predictWithLayersmodel(liveDetectionVideoElem) {
+  //   const canvas = <HTMLCanvasElement>document.getElementById('canvas-live-detection1');
+  //   // const model = await cocoSSD.load({ modelUrl: './../assets/Ed_web_model/model.json' });
+  //   // const model = await tf.loadLayersModel('./../assets/Ed_web_model/model.json');
+  //   const model = await tf.loadGraphModel('./../assets/Ed_web_model/model.json');
+  //   // const model = await cocoSSD.load({ base: 'lite_mobilenet_v2' });
+  //   this.detectFrame(liveDetectionVideoElem, model, canvas);
+  //   console.log('model loaded', model);
+  // }
 
   private initCamera() {
     if (!!(navigator.mediaDevices && navigator.mediaDevices.getUserMedia)) {
