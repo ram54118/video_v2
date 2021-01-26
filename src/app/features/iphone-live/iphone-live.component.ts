@@ -38,6 +38,10 @@ export class IphoneLiveComponent extends DeviceInfoService implements OnInit, Af
           label: 'Live Stream Direct',
           value: 'liveDirectStream',
         },
+        // {
+        //   label: 'Start Iphone Streaming',
+        //   value: 'iphoneStream',
+        // },
       ];
     }
     const liveurls = (data as any).default;

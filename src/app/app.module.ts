@@ -19,6 +19,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
@@ -43,8 +44,7 @@ import { IphoneLiveComponent } from './features/iphone-live/iphone-live.componen
 import { LoginComponent } from './features/login/login.component';
 import { WebcamLiveDetectionComponent } from './features/webcam-live-detection/webcam-live-detection.component';
 import { WebCamLiveComponent } from './features/webcam-live/webcam-live.component';
-const config: SocketIoConfig = { url: window.location.origin, options: {} };
-
+const config: SocketIoConfig = { url: 'http://localhost:8085/', options: {} };
 const materialModules = [
   MatAutocompleteModule,
   MatButtonModule,
@@ -75,6 +75,7 @@ const materialModules = [
   MatRadioModule,
   MatDatepickerModule,
   MatTooltipModule,
+  MatProgressBarModule,
   WebcamModule,
 ];
 @NgModule({

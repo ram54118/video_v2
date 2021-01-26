@@ -1,5 +1,6 @@
 <div class="det-container" *ngIf="loadTab">
   <div class="video-container">
+    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
     <webcam
       [height]="400"
       [width]="800"
@@ -24,7 +25,6 @@
     </button>
   </div>
   <div class="image-container">
-    &nbsp;
-    <img style="min-width: 533px; max-width: 300px;" [src]="sanitize(predictionImageSrc)" *ngIf="predictionImageSrc" />
+    <img class="detected-image" [src]="sanitize(predictionImageSrc)" *ngIf="predictionImageSrc" />
   </div>
 </div>

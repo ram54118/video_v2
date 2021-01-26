@@ -109,7 +109,9 @@ export class WebcamLiveDetectionComponent implements OnInit, AfterViewInit {
   public handleImage(webcamImage: WebcamImage): void {
     this.webcamImage = webcamImage;
     this.objectDetectionService.getImageDetectionOutput(this.webcamImage.imageAsDataUrl).subscribe((res) => {
-      this.predictionImageSrc = res;
+      if (res && res.path) {
+        this.predictionImageSrc = res.path;
+      }
     });
     console.log(this.webcamImage, 'predictionVideoSrc');
   }

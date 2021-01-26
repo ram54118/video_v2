@@ -52,7 +52,6 @@ io.sockets.on('connection', (socket) => {
   });
 
   app.get('/', (req, res) => {
-    console.log('called');
     res.sendFile(process.cwd() + '/dist/capture/index.html');
   });
 });
